@@ -13,7 +13,7 @@ def detectdyna_f():
     face_detector = dlib.get_frontal_face_detector()
     pose_predictor = dlib.shape_predictor('./models/shape_predictor_68_face_landmarks.dat')
     face_encoder = dlib.face_recognition_model_v1('./models/dlib_face_recognition_resnet_model_v1.dat')
-    distance_threshold = 0.6
+    distance_threshold = 0.5
     knn = pickle.load(open('model.sav','rb'))
     print("Enter the time to stop in Hours and minutes")
     hours = int(input())
@@ -26,6 +26,7 @@ def detectdyna_f():
     default = "No"
     for student in os.listdir("./Dataset"):
         c.execute("insert into record (student,presence) values (?, ?)",(student,default))
+    #video_capture = cv2.VideoCapture("http://192.168.0.5:8080/video")
     video_capture = cv2.VideoCapture(0)
     detected = []
     while datetime.datetime.now() < x:
@@ -37,7 +38,7 @@ def detectdyna_f():
             predictor = pose_predictor(img, face_location)
             encoding = np.array(face_encoder.compute_face_descriptor(img, predictor, 1))
             closest_distances = knn.kneighbors(encoding.reshape(1,-1),n_neighbors = 1)
-            if(closest_distances[0][0][0]>=0.5):
+            if(closest_distances[0][0][0]>=distance_threshold):
                 pass
             else:
                 predicted = knn.predict((np.array(face_encoder.compute_face_descriptor(img, predictor, 1))).reshape(1,-1))[0] 

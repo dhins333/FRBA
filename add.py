@@ -25,6 +25,7 @@ def add_f():
             return np.array(face_encoder.compute_face_descriptor(face_image, predictor, num_jitters))
 
     count = 0
+    #video_capture = cv2.VideoCapture("http://192.168.0.5:8080/video")
     video_capture = cv2.VideoCapture(0)
     while True:
         ret, img = video_capture.read()

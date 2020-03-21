@@ -8,7 +8,7 @@ def export_f():
     sheet1 = wb.add_sheet('Sheet 1') 
     student = []
     presence = []
-    print("Files Available for exporting to pdf")
+    print("Files Available for exporting to spreadsheet")
     for each in os.listdir("./Database"):
         print(each)
     print("Select a file from the list")
